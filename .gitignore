@@ -1,0 +1,5 @@
+# Ignore everything in flutter_app except build/web
+flutter_app/*
+!flutter_app/build/
+flutter_app/build/*
+!flutter_app/build/web/
