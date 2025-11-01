@@ -44,6 +44,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     // Optional search query
     $q = isset($_GET['q']) ? trim($_GET['q']) : '';
+    
+    // Optional station filter
+    $station_id = isset($_GET['station_id']) ? (int)$_GET['station_id'] : null;
 
     // Build base from/join
     $baseFrom = "FROM houses h
@@ -52,10 +55,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     $where = '';
     $params = [];
+    
+    $conditions = [];
+    
     if ($q !== '') {
         // search house_code, address, tenant name, station name
-        $where = "WHERE (h.house_code LIKE :q OR h.address LIKE :q OR t.name LIKE :q OR s.name LIKE :q)";
+        $conditions[] = "(h.house_code LIKE :q OR h.address LIKE :q OR t.name LIKE :q OR s.name LIKE :q)";
         $params[':q'] = '%' . $q . '%';
+    }
+    
+    if ($station_id !== null) {
+        $conditions[] = "h.station_id = :station_id";
+        $params[':station_id'] = $station_id;
+    }
+    
+    if (!empty($conditions)) {
+        $where = "WHERE " . implode(' AND ', $conditions);
     }
 
     // Count total (filtered)
