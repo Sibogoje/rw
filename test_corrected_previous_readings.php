@@ -67,7 +67,7 @@ try {
     
     // Test the API format that would be returned for a specific house
     echo "\n4. Simulating API response format for SVO-76:\n";
-    $stmt = $pdo->prepare("SELECT id FROM houses WHERE name LIKE '%SVO-76%' LIMIT 1");
+    $stmt = $pdo->prepare("SELECT id FROM houses WHERE house_code LIKE '%SVO-76%' LIMIT 1");
     $stmt->execute();
     $house = $stmt->fetch(PDO::FETCH_ASSOC);
     
