@@ -74,12 +74,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $sql = "SELECT 
                     mr.*,
                     h.house_code,
-                    h.station,
+                    s.name as station_name,
                     t.name as tenant_name,
                     u.username as captured_by_name
                 FROM meter_readings mr
                 LEFT JOIN houses h ON mr.house_id = h.id
-                LEFT JOIN tenants t ON h.tenant_id = t.id
+                LEFT JOIN stations s ON h.station_id = s.id
+                LEFT JOIN tenants t ON h.id = t.house_id AND t.active = 1
                 LEFT JOIN users u ON mr.captured_by = u.id
                 WHERE $where_str
                 ORDER BY mr.reading_date DESC, h.house_code ASC
