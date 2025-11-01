@@ -127,19 +127,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             json_response('error', null, 'Reading already exists for this house and month');
         }
         
-        // Get previous readings (last reading for this house)
-        $prev_sql = "SELECT water_current, sewage_current, electricity_current 
-                     FROM meter_readings 
-                     WHERE house_id = ? 
-                     ORDER BY reading_date DESC, id DESC 
-                     LIMIT 1";
+        // Get previous readings from last_readings table (much faster!)
+        $prev_sql = "SELECT last_water_reading, last_sewage_reading, last_electricity_reading 
+                     FROM last_readings 
+                     WHERE house_id = ?";
         $prev_stmt = $pdo->prepare($prev_sql);
         $prev_stmt->execute(array($house_id));
         $prev = $prev_stmt->fetch();
         
-        $water_previous = $prev ? $prev['water_current'] : 0;
-        $sewage_previous = $prev ? $prev['sewage_current'] : 0;
-        $electricity_previous = $prev ? $prev['electricity_current'] : 0;
+        $water_previous = $prev ? $prev['last_water_reading'] : 0;
+        $sewage_previous = $prev ? $prev['last_sewage_reading'] : 0;
+        $electricity_previous = $prev ? $prev['last_electricity_reading'] : 0;
         
         // Current readings from input
         $water_current = isset($input['water_current']) ? (float)$input['water_current'] : null;
