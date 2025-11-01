@@ -1,7 +1,7 @@
 <?php
 $host = 'srv1212.hstgr.io';
-$db   = 'u747325399_Zenmark';
-$user = 'u747325399_Zenmark';
+$db   = 'u747325399_zenRail';
+$user = 'u747325399_zenRail';
 $pass = 'u747325399_Zemark';
 $charset = 'utf8mb4';
 
