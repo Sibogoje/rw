@@ -2,7 +2,7 @@
 $host = 'srv1212.hstgr.io';
 $db   = 'u747325399_Zenmark';
 $user = 'u747325399_Zenmark';
-$pass = 'u747325399_Zenmark';
+$pass = 'u747325399_Zemark';
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
