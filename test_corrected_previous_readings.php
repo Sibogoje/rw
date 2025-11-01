@@ -28,18 +28,18 @@ try {
     // Test SVO-76 specifically
     echo "2. Testing SVO-76 house:\n";
     $stmt = $pdo->prepare("
-        SELECT h.name, lr.last_water_reading, lr.last_water_date, 
+        SELECT h.house_code, lr.last_water_reading, lr.last_water_date, 
                lr.last_sewage_reading, lr.last_sewage_date,
                lr.last_electricity_reading, lr.last_electricity_date
         FROM houses h
         LEFT JOIN last_readings lr ON h.id = lr.house_id
-        WHERE h.name LIKE '%SVO-76%'
+        WHERE h.house_code LIKE '%SVO-76%'
     ");
     $stmt->execute();
     $svo76_result = $stmt->fetch(PDO::FETCH_ASSOC);
     
     if ($svo76_result) {
-        echo "   {$svo76_result['name']}:\n";
+        echo "   {$svo76_result['house_code']}:\n";
         echo "     Water: {$svo76_result['last_water_reading']} (from {$svo76_result['last_water_date']})\n";
         echo "     Sewage: {$svo76_result['last_sewage_reading']} (from {$svo76_result['last_sewage_date']})\n";
         echo "     Electricity: {$svo76_result['last_electricity_reading']} (from {$svo76_result['last_electricity_date']})\n";
@@ -50,7 +50,7 @@ try {
     // Test top 5 houses with highest water readings
     echo "\n3. Top 5 houses with highest water readings:\n";
     $stmt = $pdo->prepare("
-        SELECT h.name, s.name as station, lr.last_water_reading, lr.last_water_date
+        SELECT h.house_code, s.name as station, lr.last_water_reading, lr.last_water_date
         FROM last_readings lr
         JOIN houses h ON lr.house_id = h.id
         JOIN stations s ON h.station_id = s.id
@@ -62,7 +62,7 @@ try {
     $top_water = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
     foreach ($top_water as $row) {
-        echo "   {$row['name']} ({$row['station']}): {$row['last_water_reading']} (from {$row['last_water_date']})\n";
+        echo "   {$row['house_code']} ({$row['station']}): {$row['last_water_reading']} (from {$row['last_water_date']})\n";
     }
     
     // Test the API format that would be returned for a specific house
