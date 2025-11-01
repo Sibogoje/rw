@@ -1,11 +1,11 @@
 <?php
 // Simple test to check if previous readings are working
-require_once 'config/db.php';
+require_once __DIR__ . '/config/db.php';
 
 echo "=== Testing Previous Readings after Population ===\n\n";
 
 try {
-    $db = getDbConnection();
+    $db = $pdo;
     
     // Check last_readings table stats
     $stmt = $db->prepare("
